@@ -8,9 +8,13 @@ app.use(express.json())
 const projects = []
 
 app.get('/projects', (req, res) => {
-    const { title, author } = req.query
+    const { title } = req.query
 
-    return res.json(projects)
+    const results = title
+        ? projects.filter(project => project.title.includes(title))
+        : projects
+
+    return res.json(results)
 })
 
 app.post('/projects', (req, res) => {
