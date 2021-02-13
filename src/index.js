@@ -1,11 +1,28 @@
 const express = require('express')
-const { uuid } = require('uuidv4')
+const { v4: uuid } = require('uuid')
 
 const app = express()
 
 app.use(express.json())
 
+// Global consts
+
 const projects = []
+
+// Middlewares
+
+const logRoutes = (req, res, next) => {
+    const { method, url } = req
+    const route = `[${method.toUpperCase()}] ${url}`
+
+    console.log(route)
+
+    return next()
+}
+
+app.use(logRoutes)
+
+// Routes
 
 app.get('/projects', (req, res) => {
     const { title } = req.query
